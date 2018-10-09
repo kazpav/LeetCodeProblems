@@ -1,4 +1,3 @@
-package LeetCodeProblems;
 
 import java.util.*;
 
@@ -66,8 +65,7 @@ public class DesignTwitter {
         System.out.println();
 
 
-
-
+        System.out.println("LIST NULL VALUE");
         list = twitter.getNewsFeed(2);
         System.out.println("LIST LISIST "+list.get(0));
 
@@ -140,7 +138,10 @@ class Twitter {
 
         //adding all user's tweets to Treemap
         if (usersTweets != null) {
+            //not null on this stage in both tweetsTOReturnTreeMap and userTweets
             tweetsToReturnTreeMap.putAll(usersTweets);
+
+
         }
 
 
@@ -148,20 +149,32 @@ class Twitter {
         HashSet<Integer> usersFolowees = followingMap.get(userId);
 
         //adding all folowee's tweets to TreeMap
-        if (usersFolowees != null) {
+        if (usersFolowees != null && usersFolowees.size()!=0) {
             for (int foloweeId : usersFolowees) {
                 if (tweetMap.get(foloweeId) != null) {
                     tweetsToReturnTreeMap.putAll(tweetMap.get(foloweeId));
+
                 }
             }
         }
 
-        for (int i = tweetsToReturnTreeMap.keySet().size() - 1; i >= 0; i--) {
-//            int x = tweetsToReturnTreeMap.get(i);
-            listToReturn.add(tweetsToReturnTreeMap.get(i));
-            if (listToReturn.size() >= 10) {
-                break;
+//        for (int i = tweetsToReturnTreeMap.keySet().size() - 1; i >= 0; i--) {
+////            int x = tweetsToReturnTreeMap.get(i);
+//            listToReturn.add(tweetsToReturnTreeMap.get(i));
+//            //here tweetsToReturnTreeMap get(i) == null
+//            if (listToReturn.size() >= 10) {
+//                break;
+//            }
+//        }
+        NavigableSet<Integer> descKeys = tweetsToReturnTreeMap.descendingKeySet();
+
+        int counter = 0;
+        for(int i : descKeys){
+            if(counter>=9){
+                return listToReturn;
             }
+            listToReturn.add(tweetsToReturnTreeMap.get(i));
+            counter++;
         }
 
         return listToReturn;
