@@ -78,5 +78,25 @@ public class Permutations {
         return list;
     }
 
+// NEW NEW 
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(nums, result, new ArrayList<>());
+        return result;
+    }
 
+    public void backtrack(int[] nums, List<List<Integer>> permutations, List<Integer> tempList){
+        if(tempList.size() == nums.length)
+            permutations.add(new ArrayList<>(tempList));
+
+        else{
+            for(int i = 0; i < nums.length; i++){
+                if(tempList.contains(nums[i])) continue;       // Element exists (distinct), skip this
+                tempList.add(nums[i]);
+                backtrack(nums, permutations, tempList);
+                tempList.remove(tempList.size() - 1);
+            }
+        }
+
+    }
 }
