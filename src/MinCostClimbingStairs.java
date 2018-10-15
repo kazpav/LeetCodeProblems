@@ -126,4 +126,18 @@ public class MinCostClimbingStairs {
 
             return currentSum;
     }
+    //NEW NEW
+    public static int minCostClimbingStairs(int[] cost) {
+        if (cost == null || cost.length == 0) {
+            return 0;
+        }
+        int prevPrevStair = cost[0], prevStair = cost[1];
+        int minCostTillNow = 0;
+        for (int currentIndex = 2; currentIndex < cost.length; currentIndex++) {
+            minCostTillNow = cost[currentIndex] + Math.min(prevStair, prevPrevStair);
+            prevPrevStair = prevStair;
+            prevStair = minCostTillNow;
+        }
+        return Math.min(prevStair, prevPrevStair);
+    }
 }
