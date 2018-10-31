@@ -1,96 +1,75 @@
+package leetcode.easy.longest_common_prefix;
 
 
-//this one works correctly, was approved by leetcode
-public class LongestCommonPrefix {
-    public static void main(String[] args) {
+/**
+ * This problem is solved and was approved by leetcode
+ *
+ * @author Pavel Kazarin
+ * @see <a href="https://leetcode.com/problems/longest-common-prefix/description/">Longest Common Prefix</a>
+ */
+class LongestCommonPrefix {
 
-        String[] case1 = new String[]{"aa", "a"};
+    /**
+     * This method finds common prefixes in String array
+     *
+     * @param strs String array to check
+     * @return Longest common prefix
+     */
+    static String longestCommonPrefix(String[] strs) {
 
-//        String[] case2 = new String[]{"abab", "aba", ""};
-//
-//        String[] case3 = new String[]{"we", "wendor", "well"};
-//
-//        String[] case4 = new String[]{"flower", "flow", "flight"};
-//
-//        String[] case5 = new String[]{"a", "a", "abcd", "a"};
-//
-//        String[] case6 = new String[0];
-//
-//        String[] case7 = new String[]{"", ""};
-//
-//        String[] case8 = new String[]{"", "", "", "", "s", "s"};
-//
-//        String[] case9 = new String[]{"abcd", "", "", ""};
-//
-//        String[] case10 = new String[]{"dog", "racecar", "car"};
+        // Result to return in future
+        StringBuilder result = new StringBuilder();
 
-        System.out.println(longestCommonPrefix(case1));
-
-    }
-
-    public static String longestCommonPrefix(String[] strs) {
-
-        //Result to return in future
-        String result = "";
-
-        //returning "" when array is empty
+        // Returning "" when array is empty
         if (strs.length == 0) {
-            return result;
+            return result.toString();
         }
         if (strs.length == 1) {
             return strs[0];
         }
-        //If we need to compare smth, we need at least 2 words
-        //So we are getting first word to compare it with others in future
+        // If we need to compare smth, we need at least 2 words
+        // So we are getting first word to compare it with others in future
         String firstWord = strs[0];
 
-        //There is nothing to compare when there are no at least 2 elements
-        // or first word is already empty
-        if (strs.length < 2 || firstWord == "") {
-            return result;
+        // There is no need to compare anything if first word is empty
+        if (firstWord.equals("")) {
+            return result.toString();
         }
 
         int firstWrodLength = firstWord.length();
 
-        //this loop will go through first word chars
-        A:
+        // This loop will go through first word chars
         for (int currentCharNumber = 0; currentCharNumber < firstWrodLength; currentCharNumber++) {
 
-            //error was here
-            //trying to get index 1 at second word
-            //getting first word's char
+            // Getting first word's char
             char charToCheck = firstWord.charAt(currentCharNumber);
 
-            //this loop goes through other words, starting from strs[1] word
+            // This loop goes through other words, starting from strs[1] word
             for (int currentWordIndex = 1; currentWordIndex < strs.length; currentWordIndex++) {
-                //getting char from current word
+                // Getting char from current word
                 String currentWord = strs[currentWordIndex];
 
-                //if current word is empty, return ""
-                if (currentWord == "") {
+                // If current word is empty, return ""
+                if (currentWord.equals("")) {
                     return "";
                 }
 
                 if (currentCharNumber == currentWord.length()) {
-
-                    break A;
+                    return result.toString();
                 }
 
-                //getting current char in current word
+                // Getting current char in current word
                 char currentChar = currentWord.charAt(currentCharNumber);
 
-                //if words have common char continue loop
-                //break the loop otherwise
-                if (currentChar == charToCheck) {
-                    continue;
-                } else {
-                    break A;
+                // If words have common char continue loop
+                // Return result the loop otherwise
+                if (currentChar != charToCheck) {
+                    return result.toString();
                 }
             }
-            //adding new char to result String
-            result += charToCheck;
+            // Adding new char to result String
+            result.append(charToCheck);
         }
-        return result;
+        return result.toString();
     }
-
 }
