@@ -1,102 +1,67 @@
-package LeetCodeProblems;
+package leetcode.medium.permutations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class Permutations {
-    public static void main(String[] args) {
-        int[] arrays = new int[]{1,2,3};
-        int[] arrays1 = new int[]{0,1};
+/**
+ * Problem from leetcode
+ *
+ * @author Pavel Kazarin
+ * @see <a href="https://leetcode.com/problems/permutations/description/">Permutations</a>
+ */
+class Permutations {
 
-//        permute(arrays);
-
-        List<List<Integer>> list = new ArrayList<List<Integer>>();
-        list = permute(arrays1);
-
-        for(int i = 0; i<list.size(); i++){
-            for(int j = 0; j<list.get(i).size(); j++){
-                System.out.print(list.get(i).get(j)+" ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> list = new ArrayList<List<Integer>>();
-
-        //unstate situations
-        //optimize this code
-        if(nums.length == 1 ){
-            ArrayList<Integer> tempArrayL = new ArrayList<Integer>();
-            tempArrayL.add(nums[0]);
-            list.add(tempArrayL);
-            return list;
-        }
-
-
-
-
-        for (int i = 0; i<nums.length; i++){
-            int[] numsCopy = nums.clone();
-
-
-
-            ArrayList<Integer> tempArray = new ArrayList<Integer>();
-            for(int x : nums){
-                tempArray.add(x);
-            }
-            list.add(tempArray);
-
-
-            for(int j = numsCopy.length-1; j> numsCopy.length-2; j--){
-
-                if(nums.length == 2){
-                    break;
-                }
-
-
-                int temp = numsCopy[j];
-                numsCopy[j] = numsCopy[j-1];
-                numsCopy[j-1] = temp;
-
-                tempArray = new ArrayList<Integer>();
-                for(int x : numsCopy){
-                    tempArray.add(x);
-                }
-                list.add(tempArray);
-
-            }
-            if(i!=nums.length-1){
-                int temp = nums[0];
-                nums[0]=nums[i+1];
-                nums[i+1] = temp;
-            }
-
-            System.out.println();
-        }
-        return list;
-    }
-
-// NEW NEW 
-    public List<List<Integer>> permute(int[] nums) {
+    /**
+     * This method calculates all possible permutations
+     *
+     * @param nums Array of ints
+     * @return List of list of possible permutations
+     */
+    static List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         backtrack(nums, result, new ArrayList<>());
+//        backtrackSet(nums,result,new ArrayList<>(), new HashSet<>());
         return result;
     }
 
-    public void backtrack(int[] nums, List<List<Integer>> permutations, List<Integer> tempList){
-        if(tempList.size() == nums.length)
+    /**
+     * Recursive method that calculates all permutations
+     *
+     * @param nums         Array of ints
+     * @param permutations List of list of possible permutations
+     * @param tempList     Current list we work with
+     */
+    private static void backtrack(int[] nums, List<List<Integer>> permutations, List<Integer> tempList) {
+        if (tempList.size() == nums.length) {
             permutations.add(new ArrayList<>(tempList));
-
-        else{
-            for(int i = 0; i < nums.length; i++){
-                if(tempList.contains(nums[i])) continue;       // Element exists (distinct), skip this
-                tempList.add(nums[i]);
+        } else {
+            for (int num : nums) {
+                if (tempList.contains(num)) continue;
+                tempList.add(num);
                 backtrack(nums, permutations, tempList);
                 tempList.remove(tempList.size() - 1);
             }
         }
+    }
 
+    /**
+     * Recursive method that calculate all permutations using Set.
+     * @param nums Array of ints
+     * @param permutations List of list of possible permutations
+     * @param tempList current list we work with
+     * @param tempSet current set we work with
+     */
+    private static void backtrackSet(int[] nums, List<List<Integer>> permutations, List<Integer> tempList, Set<Integer> tempSet){
+        if(tempList.size()==nums.length){
+            permutations.add(new ArrayList<>(tempList));
+        }else{
+            for(int num : nums){
+                if(tempSet.contains(num)) continue;
+                tempList.add(num);
+                tempSet.add(num);
+                backtrackSet(nums,permutations,tempList, tempSet);
+                tempSet.remove(num);
+                tempList.remove(tempList.size()-1);
+            }
+        }
     }
 }
